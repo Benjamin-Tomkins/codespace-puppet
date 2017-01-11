@@ -1,72 +1,70 @@
 version: '2'
 
 networks:
-  custom:
+  puppet:
     driver: bridge
 
 services:
-  control:
-    image: schoolofdevops/puppet-controller:v1.0
+  puppetmaster:
+    image: schoolofdevops/puppet-controller:v1.1
     ports:
       - "8000:8000"
       - "2222:22"
+      - "80:80"
     environment:
-      CODEBOX_USERNAME: admin
-      CODEBOX_PASSWORD: schoolofdevops
+      CODEBOX_USERNAME: devops
+      CODEBOX_PASSWORD: codespaces
       JAVA_ARGS: "-Xms256m -Xmx256m -XX:MaxPermSize=256m"
     volumes:
       - /control:/workspace
     networks:
-      - custom
+      - puppet
     container_name: control
     domainname: schoolofdevops.com
-    hostname: puppet-server
+    hostname: puppetmaster
 
-  lb:
-    image: schoolofdevops/puppet-centos6-node:v1.0
+  node1:
+    image: schoolofdevops/puppet-centos6-node:v1.1
     ports:
        - "2223:22"
-       - "80:80"
-    networks:
-      - custom
-    container_name: lb
-    domainname: schoolofdevops.com
-    hostname: lb
-    links:
-        - control:puppet-server
-  app1:
-    image: schoolofdevops/puppet-centos6-node:v1.0
-    ports:
-       - "2224:22"
        - "81:80"
     networks:
-      - custom
-    container_name: app1
+      - puppet
+    container_name: node1
     domainname: schoolofdevops.com
-    hostname: app1
-    links:
-        - control:puppet-server
-  app2:
-    image: schoolofdevops/puppet-ubuntu-node:v1.0
+    hostname: node1
+   
+  node2:
+    image: schoolofdevops/puppet-centos6-node:v1.1
+    ports:
+       - "2224:22"
+       - "82:80"
+    networks:
+      - puppet
+    container_name: node2
+    domainname: schoolofdevops.com
+    hostname: node2
+
+  node3:
+    image: schoolofdevops/puppet-centos6-node:v1.1
     ports:
       - "2225:22"
-      - "82:80"
+      - "83:80"
     networks:
-      - custom
-    container_name: app2
+      - puppet
+    container_name: node3
     domainname: schoolofdevops.com
-    hostname: app2
-    links:
-        - control:puppet-server
-  db:
-    image: schoolofdevops/puppet-centos6-node:v1.0
+    hostname: node3
+
+  node4:
+    image: schoolofdevops/puppet-centos6-node:v1.1
     ports:
       - "2226:22"
+      - "84:80"
       - "3306:3306"
     networks:
-      - custom
-    container_name: db
+      - puppet
+    container_name: node4
     domainname: schoolofdevops.com
-    hostname: db
-    links:
-        - control:puppet-server
+    hostname: node4
+
