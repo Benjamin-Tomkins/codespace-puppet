@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  puppetmaster:
+  puppet:
     image: schoolofdevops/puppet-controller:v1.1
     ports:
       - "8000:8000"
@@ -19,9 +19,9 @@ services:
       - /control:/workspace
     networks:
       - puppet
-    container_name: control
+    container_name: puppet
     domainname: schoolofdevops.com
-    hostname: puppetmaster
+    hostname: puppet
 
   node1:
     image: schoolofdevops/puppet-centos6-node:v1.2.0
