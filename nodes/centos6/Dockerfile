@@ -2,11 +2,9 @@ FROM centos:6
 MAINTAINER babu <babu@initcron.org>
 
 LABEL env=dev
-RUN yum -y install http://yum.puppetlabs.com/el/6/products/x86_64/puppetlabs-release-6-7.noarch.rpm && \
-    yum -y update && \
+RUN rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm && \
     yum -y install openssh-server shadow-utils sudo && \ 
-    sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/puppetlabs.repo && \
-    yum --enablerepo=puppetlabs-products,puppetlabs-deps -y install puppet && \
+    yum install puppet-agent -y && \
     yum clean all
 
 RUN sed -i -e "s/#PUPPET_SERVER=puppet/PUPPET_SERVER=puppet-server/g" /etc/sysconfig/puppet && \
