@@ -21,18 +21,15 @@ COPY 128.png /usr/lib/node_modules/codebox/client/build/static/images/icons
 RUN chown nobody.root /usr/lib/node_modules/codebox/client/build/static/images/icons/128.png && \
     chmod 644 /usr/lib/node_modules/codebox/client/build/static/images/icons/128.png
 
-ADD https://apt.puppetlabs.com/puppetlabs-release-trusty.deb /opt
+ADD https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb /opt
 
-RUN dpkg -i /opt/puppetlabs-release-trusty.deb && \
-    rm -rf /opt/puppetlabs-release-trusty.deb && \
+RUN dpkg -i /opt/puppetlabs-release-pc1-trusty.deb && \
+    rm -rf /opt/puppetlabs-release-pc1-trusty.deb && \
     apt-get update && \
-    apt-get install -y puppetserver
-
-#RUN sed -i 's/Xms2g/Xms256m/g;s/Xmx2g/Xmx256m/g' /etc/default/puppetserver
-RUN sed -i "s/^JAVA_ARGS.*/JAVA_ARGS=\"${JAVA_ARGS}\"/g" /etc/default/puppetserver
-
-RUN apt-get install -y openssh-server sudo vim
-RUN mkdir /var/run/sshd
+    apt-get install -y puppetserver && \
+    sed -i "s/^JAVA_ARGS.*/JAVA_ARGS=\"${JAVA_ARGS}\"/g" /etc/default/puppetserver && \
+    apt-get install -y openssh-server sudo vim && \
+    mkdir /var/run/sshd
 
 COPY motd.sh /opt/
 
@@ -41,14 +38,12 @@ RUN chmod +x /opt/motd.sh && \
     rm -rf motd.sh
 
 RUN useradd -ms /bin/bash devops && \
-    echo 'devops:schoolofdevops' |chpasswd && \
-    adduser devops sudo
-
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+    echo 'devops:codespaces' |chpasswd && \
+    adduser devops sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 EXPOSE 22 8000
 
 ADD ./entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
