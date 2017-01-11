@@ -6,7 +6,7 @@ networks:
 
 services:
   puppet:
-    image: schoolofdevops/puppet-controller:v1.1
+    image: schoolofdevops/puppet-controller:v1.1.0
     ports:
       - "8000:8000"
       - "2222:22"
