@@ -24,7 +24,7 @@ services:
     hostname: puppetmaster
 
   node1:
-    image: schoolofdevops/puppet-centos6-node:v1.1
+    image: schoolofdevops/puppet-centos6-node:v1.2.0
     ports:
        - "2223:22"
        - "81:80"
@@ -35,7 +35,7 @@ services:
     hostname: node1
    
   node2:
-    image: schoolofdevops/puppet-centos6-node:v1.1
+    image: schoolofdevops/puppet-centos6-node:v1.2.0
     ports:
        - "2224:22"
        - "82:80"
@@ -46,7 +46,7 @@ services:
     hostname: node2
 
   node3:
-    image: schoolofdevops/puppet-centos6-node:v1.1
+    image: schoolofdevops/puppet-centos6-node:v1.2.0
     ports:
       - "2225:22"
       - "83:80"
@@ -57,7 +57,7 @@ services:
     hostname: node3
 
   node4:
-    image: schoolofdevops/puppet-centos6-node:v1.1
+    image: schoolofdevops/puppet-centos6-node:v1.2.0
     ports:
       - "2226:22"
       - "84:80"
