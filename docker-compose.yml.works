@@ -6,58 +6,56 @@ networks:
 
 services:
   puppet:
-    image: schoolofdevops/puppet-controller:v1.1.0
+    image: puppet-master
     ports:
       - "8000:8000"
       - "2222:22"
       - "80:80"
     environment:
-      CODEBOX_USERNAME: devops
-      CODEBOX_PASSWORD: codespaces
       JAVA_ARGS: "-Xms256m -Xmx256m -XX:MaxPermSize=256m"
     volumes:
       - /control:/workspace
     networks:
       - puppet
     container_name: puppet
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: puppet
 
   node1:
-    image: schoolofdevops/puppet-centos6-node:v1.3.0
+    image: puppet-node-centos-6
     ports:
        - "2223:22"
        - "81:80"
     networks:
       - puppet
     container_name: node1
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node1
-   
+
   node2:
-    image: schoolofdevops/puppet-centos6-node:v1.3.0
+    image: puppet-node-centos-6
     ports:
        - "2224:22"
        - "82:80"
     networks:
       - puppet
     container_name: node2
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node2
 
   node3:
-    image: schoolofdevops/puppet-centos6-node:v1.3.0
+    image: puppet-node-centos-6
     ports:
       - "2225:22"
       - "83:80"
     networks:
       - puppet
     container_name: node3
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node3
 
   node4:
-    image: schoolofdevops/puppet-centos6-node:v1.3.0
+    image: puppet-node-centos-6
     ports:
       - "2226:22"
       - "84:80"
@@ -65,6 +63,6 @@ services:
     networks:
       - puppet
     container_name: node4
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node4
 

@@ -8,7 +8,9 @@ ADD https://apt.puppetlabs.com/puppetlabs-release-trusty.deb /opt
 RUN dpkg -i /opt/puppetlabs-release-trusty.deb && \
     rm -rf /opt/puppetlabs-release-trusty.deb && \
     apt-get update && \
-    apt-get install -y puppet
+    apt-get install -y puppet sysv-rc-conf && \
+    sysv-rc-conf puppet on
+    
 
 RUN sed -i 's/templatedir/#templatedir/g' /etc/puppet/puppet.conf && \
     sed -i 's/ssl_client_header/#ssl_client_header/g' etc/puppet/puppet.conf && \
@@ -30,15 +32,15 @@ RUN chmod +x /opt/motd.sh && \
 
 #RUN echo 'devops ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN useradd -ms /bin/bash devops && \
-    echo 'devops:schoolofdevops' |chpasswd && \
-    adduser devops sudo
+RUN echo -e "service sshd start && service sshd stop && \
+    useradd devops && \
+    echo 'devops:codespaces' | chpasswd && \
+    /usr/sbin/sshd -D" > /bootstrap.sh
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-ADD ./entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+COPY authorized_keys /home/devops/.ssh/authorized_keys
 
 EXPOSE 22
 
-CMD ["/bin/bash","/entrypoint.sh"]
+CMD ["/bin/bash","/bootstrap.sh"]
