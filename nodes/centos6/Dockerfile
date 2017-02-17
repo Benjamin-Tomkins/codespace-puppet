@@ -9,8 +9,7 @@ RUN rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm &
     chkconfig puppet on
 
 RUN sed -i -e "s/#PUPPET_SERVER=puppet/PUPPET_SERVER=puppet-server/g" /etc/sysconfig/puppet && \
-    sed -i -e "s/#PUPPET_LOG/PUPPET_LOG/g" /etc/sysconfig/puppet && \ 
-    echo "export PATH=$PATH:/opt/puppetlabs/bin" >> /home/devops/.bashrc
+    sed -i -e "s/#PUPPET_LOG/PUPPET_LOG/g" /etc/sysconfig/puppet 
 
 COPY motd.sh /opt/
 
@@ -21,6 +20,7 @@ RUN chmod +x /opt/motd.sh && \
 RUN echo -e "service sshd start && service sshd stop && \
     useradd devops && \
     echo 'devops:codespaces' | chpasswd && \
+    echo "export PATH=$PATH:/opt/puppetlabs/bin" >> /home/devops/.bashrc && \
     /usr/sbin/sshd -D" > /bootstrap.sh
 
 RUN echo 'devops ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
