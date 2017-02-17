@@ -9,6 +9,7 @@ services:
     image: puppet-master
     ports:
       - "8000:8000"
+      - "2222:22"
       - "80:80"
     environment:
       JAVA_ARGS: "-Xms256m -Xmx256m -XX:MaxPermSize=256m"
@@ -17,51 +18,51 @@ services:
     networks:
       - puppet
     container_name: puppet
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: puppet
-    restart: always
 
   node1:
     image: puppet-node-centos-6
     ports:
+       - "2223:22"
        - "81:80"
     networks:
       - puppet
     container_name: node1
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node1
-    restart: always
 
   node2:
     image: puppet-node-centos-6
     ports:
+       - "2224:22"
        - "82:80"
     networks:
       - puppet
     container_name: node2
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node2
-    restart: always
 
   node3:
     image: puppet-node-centos-6
     ports:
+      - "2225:22"
       - "83:80"
     networks:
       - puppet
     container_name: node3
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node3
-    restart: always
 
   node4:
     image: puppet-node-centos-6
     ports:
+      - "2226:22"
       - "84:80"
       - "3306:3306"
     networks:
       - puppet
     container_name: node4
-    domainname: codespaces.io
+    domainname: schoolofdevops.com
     hostname: node4
-    restart: always
+
