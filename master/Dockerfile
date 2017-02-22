@@ -12,6 +12,8 @@ RUN dpkg -i /opt/puppetlabs-release-pc1-trusty.deb && \
 
 EXPOSE 22 8000
 
+COPY insecure_key.pem /root/.ssh/id_rsa
+
 ADD ./entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
